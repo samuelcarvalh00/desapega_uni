@@ -9,24 +9,39 @@ Full-Stack — Laboratório Vortex (UNIFOR)**.
 
 ## Tecnologias utilizadas
 
-- **Backend:** Node.js, Express, persistência em arquivo JSON
-- **Frontend:** React (Vite), React Router
+- **Backend:** Node.js, Express, PostgreSQL (via `pg`)
+- **Frontend:** React + TypeScript (Vite), React Router
 - **PWA:** Web App Manifest + Service Worker (cache de app shell e de dados da API)
+- **Infra local:** Docker Compose (sobe um Postgres já configurado)
 
 ## Como rodar localmente
 
 ### Pré-requisitos
-- Node.js 18+ instalado
+- Node.js 18+
+- Docker e Docker Compose (para o banco de dados local)
 
-### Backend
+### 1. Subir o banco de dados
+Na raiz do projeto:
+```bash
+docker compose up -d
+```
+Isso sobe um Postgres em `localhost:5432` com usuário `vortex`, senha `vortex123`
+e banco `vortex_marketplace` (veja `docker-compose.yml`).
+
+> Não quer usar Docker? Pode usar qualquer Postgres (local ou um free tier como
+> Neon/Supabase) — só ajustar a `DATABASE_URL` no passo 2.
+
+### 2. Backend
 ```bash
 cd backend
+cp .env.example .env   # ajuste DATABASE_URL se não for usar o Docker Compose
 npm install
 npm run dev
 ```
-A API sobe em `http://localhost:3333`.
+A API sobe em `http://localhost:3333`. Na primeira execução, a tabela `anuncios`
+é criada automaticamente (`schema.sql`) e populada com 3 anúncios de exemplo.
 
-### Frontend
+### 3. Frontend
 ```bash
 cd frontend
 npm install

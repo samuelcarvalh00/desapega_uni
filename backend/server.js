@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const anunciosRouter = require("./routes/anuncios");
+const db = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 3333;
@@ -27,6 +28,15 @@ app.use((err, req, res, next) => {
   res.status(500).json({ erro: "Erro interno no servidor." });
 });
 
-app.listen(PORT, () => {
-  console.log(`API rodando em http://localhost:${PORT}`);
-});
+// Garante que a tabela existe (e semeia dados de exemplo) antes de aceitar requisições
+db.init()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`API rodando em http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Não foi possível conectar ao Postgres:", err.message);
+    console.error("Confira se o banco está no ar (ex: docker compose up -d) e se DATABASE_URL está correto.");
+    process.exit(1);
+  });

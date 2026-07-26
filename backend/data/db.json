@@ -1,0 +1,38 @@
+{
+  "anuncios": [
+    {
+      "id": 1,
+      "titulo": "Cálculo Vol. 1 - James Stewart",
+      "descricao": "Livro usado, em bom estado, poucas anotações a lápis.",
+      "categoria": "Livros",
+      "tipo": "venda",
+      "preco": 45,
+      "imagemUrl": "https://picsum.photos/seed/livro1/400/300",
+      "autor": "convidado",
+      "criadoEm": "2026-07-25T02:52:42.856Z"
+    },
+    {
+      "id": 2,
+      "titulo": "Calculadora Científica HP 12C",
+      "descricao": "Funcionando perfeitamente, ideal para Engenharia.",
+      "categoria": "Engenharia",
+      "tipo": "venda",
+      "preco": 120,
+      "imagemUrl": "https://picsum.photos/seed/calc1/400/300",
+      "autor": "convidado",
+      "criadoEm": "2026-07-25T02:52:42.857Z"
+    },
+    {
+      "id": 3,
+      "titulo": "Jaleco Branco Tamanho M",
+      "descricao": "Doação para quem está começando o curso.",
+      "categoria": "Jalecos",
+      "tipo": "doacao",
+      "preco": null,
+      "imagemUrl": "https://picsum.photos/seed/jaleco1/400/300",
+      "autor": "convidado",
+      "criadoEm": "2026-07-25T02:52:42.857Z"
+    }
+  ],
+  "nextId": 4
+}

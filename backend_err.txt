@@ -1,0 +1,2 @@
+Não foi possível conectar ao Postgres: 
+Confira se o banco está no ar (ex: docker compose up -d) e se DATABASE_URL está correto.
