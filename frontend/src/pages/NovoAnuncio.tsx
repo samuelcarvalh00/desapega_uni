@@ -1,11 +1,12 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { criarAnuncio } from "../api";
+import { getVisitorId } from "../visitor";
 import type { TipoAnuncio } from "../types";
 
-const USUARIO_ATUAL = "voce";
+const USUARIO_ATUAL = getVisitorId();
 
-const CATEGORIAS = ["Livros", "Informática", "Itens de Papelaria", "Roupas", "Objetos"];
+const CATEGORIAS = ["Livros", "Engenharia", "Computação", "Jalecos", "Eletrônicos", "Móveis"];
 
 interface FormState {
   titulo: string;

@@ -71,56 +71,26 @@ O app sobe em `http://localhost:5173`.
 
 ## 🧠 Diário de Bordo da IA
 
-> Seção obrigatória exigida pelo edital do desafio Vortex (Seção 3).
+> Seção obrigatória exigida pelo edital do desafio Vortex.
 
 ### Ferramentas utilizadas
-Utilizei apenas o **Claude (Anthropic)** ao longo de todo o desenvolvimento —
-desde a estruturação inicial do projeto (backend, frontend, PWA) até a
-revisão de arquitetura, geração de material de estudo e ajustes de design.
+_(preencha: ex. Claude, ChatGPT, GitHub Copilot...)_
 
 ### Estratégia de Engenharia de Prompts
+Cole aqui 2-3 prompts reais que você usou para destravar o desenvolvimento
+(ex: estruturar o service worker, debugar um erro específico, modelar as rotas).
 
-1. **Prompt:** "vamo começar agora ja" (após alinhar a stack Node.js/Express +
-   React em resposta a uma pergunta anterior da IA sobre qual stack eu já
-   dominava)
-   **Por que usei / o que resolveu:** pedi pra já sair estruturando o projeto
-   inteiro (backend com API REST, frontend com PWA) em vez de eu escrever
-   arquivo por arquivo do zero, economizando o tempo que eu tinha (o prazo
-   era apertado — 6 dias restantes).
+1. **Prompt:** "..."
+   **Por que usei / o que resolveu:** ...
 
-2. **Prompt:** "po te falar da pra melhorar o design dessa pagina, colocar uns
-   hover pra ficar mais estilizando e umas transições mais suaves, e alem disso
-   c nao aplicou o diferencial que seria o ts no front, e eu n to vendo nem um
-   banco de dadosm queria começar a mexer com postgress esse podia ser um
-   começo"
-   **Por que usei / o que resolveu:** usei esse prompt pra pedir 3 melhorias
-   de uma vez — hover/transições no CSS, migração do frontend pra TypeScript
-   e troca da persistência em arquivo JSON por PostgreSQL real (ambos
-   diferenciais bônus do edital).
-
-3. **Prompt:** "consegue criar um pdf com as explicações e tmb como iniciar o
-   projeto como é o fluxo dele e etc" (pedindo explicitamente conceitos
-   básicos como o que é Docker, como o banco se conecta ao backend, e
-   explicação pasta por pasta)
-   **Por que usei / o que resolveu:** como meu papel virou entender o código
-   em vez de escrever mais, usei esse prompt pra gerar material de estudo
-   estruturado, que usei pra me preparar pro trecho de explicação técnica do
-   vídeo.
+2. **Prompt:** "..."
+   **Por que usei / o que resolveu:** ...
 
 ### Compartilhamento de histórico (opcional)
-Optei por não compartilhar o link da conversa.
+_(link de uma conversa longa de desenvolvimento, se quiser incluir)_
 
 ### Reflexão crítica
-Ao gerar as categorias de filtro da landing page, a IA criou "Livros",
-"Engenharia", "Computação" e "Jalecos" misturando dois critérios diferentes
-sem perceber: alguns filtros eram por **tipo de item** (Livros, Jalecos) e
-outros por **curso/área** (Engenharia, Computação). Isso não fazia sentido,
-já que um jaleco ou uma calculadora científica servem pra vários cursos, não
-só um — e "Computação" como categoria também era ambíguo (periférico? peça de
-PC? livro de computação?). Percebi o problema ao revisar os prints do sistema
-rodando: os filtros pareciam específicos demais e inconsistentes entre si.
-Ao questionar isso com a IA, ela reconheceu a inconsistência e propôs
-categorias baseadas só em tipo de item (ex: "Eletrônicos", "Roupas e
-Uniformes", "Livros e Apostilas"), evitando misturar critérios diferentes na
-mesma lista de filtros. Esse caso mostra que a IA gera algo funcional de
-primeira, mas nem sempre pensa em consistência de UX até ser questionada.
+Descreva um momento em que a IA errou, gerou algo incompleto ou "alucinou",
+e como você identificou e corrigiu.
+
+_(preencha aqui)_

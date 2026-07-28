@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { listarAnuncios, deletarAnuncio } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
+import { getVisitorId } from "../visitor";
 import type { Anuncio } from "../types";
 
-// Simulação simples de "usuário logado" via constante fixa,
-// já que autenticação completa é diferencial bônus.
-const USUARIO_ATUAL = "voce";
+// ID simples por navegador, salvo em localStorage (nao e login de verdade,
+// so evita que todo mundo que acessa o site apareca como o mesmo "autor").
+const USUARIO_ATUAL = getVisitorId();
 
 export default function Anuncios() {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
