@@ -6,7 +6,7 @@ import type { TipoAnuncio } from "../types";
 
 const USUARIO_ATUAL = getVisitorId();
 
-const CATEGORIAS = ["Livros", "Engenharia", "Computação", "Jalecos", "Eletrônicos", "Móveis"];
+const CATEGORIAS = ["Livros", "Informática", "Itens de Papelaria", "Roupas", "Objetos"];
 
 interface FormState {
   titulo: string;
