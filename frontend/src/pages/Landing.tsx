@@ -4,7 +4,7 @@ import { listarAnuncios } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
 import type { Anuncio } from "../types";
 
-const CATEGORIAS = ["Todos", "Livros", "Informática", "Itens de Papelaria", "Roupas"];
+const CATEGORIAS = ["Todos", "Livros", "Informática", "Itens de Papelaria", "Roupas", "Objetos"];
 
 export default function Landing() {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
