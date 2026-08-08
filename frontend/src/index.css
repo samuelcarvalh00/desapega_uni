@@ -873,9 +873,8 @@ a.modal__contato:hover {
   border-color: #e05252;
 }
 
-
 /* ============================================
-   FIX MODAL MOBILE — Body scroll lock + Bottom Sheet
+   FIX MODAL MOBILE — Bottom Sheet + Scroll Lock
    ============================================ */
 
 @media (max-width: 600px) {
@@ -883,6 +882,7 @@ a.modal__contato:hover {
     padding: 0;
     align-items: flex-end;
     justify-content: center;
+    overflow: hidden;
   }
 
   .modal {
@@ -893,6 +893,8 @@ a.modal__contato:hover {
     max-height: 85vh;
     margin: 0;
     animation: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .modal--anuncio {
@@ -900,6 +902,8 @@ a.modal__contato:hover {
     max-height: 85dvh;
     max-height: 85vh;
     padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .modal__imagem {
@@ -910,6 +914,8 @@ a.modal__contato:hover {
 
   .modal__conteudo-anuncio {
     padding: 1rem 1.25rem 1.5rem;
+    overflow: visible;
+    flex: none;
   }
 
   .modal--anuncio .modal__fechar {
