@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { listarAnuncios } from "../api";
+import { listarAnuncios, deletarAnuncio } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
 import AnuncioDetalheModal from "../components/AnuncioDetalheModal";
+import { getVisitorId, isAdmin } from "../visitor";
 import type { Anuncio } from "../types";
 
+const USUARIO_ATUAL = getVisitorId();
 const CATEGORIAS = ["Todos", "Livros", "Objetos", "Informática", "Roupas"];
 
 export default function Landing() {
@@ -20,6 +22,16 @@ export default function Landing() {
       .catch(() => setAnuncios([]))
       .finally(() => setCarregando(false));
   }, [categoria]);
+
+  async function handleDelete(id: number) {
+    if (!confirm("Remover este anúncio?")) return;
+    try {
+      await deletarAnuncio(id);
+      setAnuncios((prev) => prev.filter((a) => a.id !== id));
+    } catch {
+      alert("Erro ao remover o anúncio.");
+    }
+  }
 
   return (
     <div className="landing">
@@ -72,7 +84,12 @@ export default function Landing() {
         ) : (
           <div className="grid">
             {anuncios.slice(0, 6).map((a) => (
-              <AnuncioCard key={a.id} anuncio={a} onClick={setSelecionado} />
+              <AnuncioCard
+                key={a.id}
+                anuncio={a}
+                onClick={setSelecionado}
+                onDelete={isAdmin() || a.autor === USUARIO_ATUAL ? handleDelete : undefined}
+              />
             ))}
           </div>
         )}

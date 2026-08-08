@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
+import { deletarAnuncio } from "../api";
 import type { Anuncio } from "../types";
 import { capitalizarPrimeiraLetra } from "../utils";
+import { getVisitorId, isAdmin } from "../visitor";
 
 interface AnuncioDetalheModalProps {
   anuncio: Anuncio | null;
@@ -43,6 +45,7 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
   const contatoEhEmail = ehEmail(anuncio.contato);
   const numeroLimpo = anuncio.contato.replace(/\D/g, "");
   const mensagem = montarMensagemWhatsApp(anuncio);
+  const podeDeletar = isAdmin() || anuncio.autor === getVisitorId();
 
   return (
     <div className="modal-overlay" onClick={aoFechar}>
@@ -71,6 +74,25 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
               <span className="modal__icone">💬</span>
               <div><strong>WhatsApp</strong><span>{anuncio.contato}</span></div>
             </a>
+          )}
+
+          {podeDeletar && (
+            <button
+              className="btn-deletar-modal"
+              onClick={async () => {
+                if (confirm("Remover este anúncio?")) {
+                  try {
+                    await deletarAnuncio(anuncio.id);
+                    aoFechar();
+                    window.location.reload();
+                  } catch {
+                    alert("Erro ao remover o anúncio.");
+                  }
+                }
+              }}
+            >
+              🗑️ Excluir Anúncio
+            </button>
           )}
         </div>
       </div>

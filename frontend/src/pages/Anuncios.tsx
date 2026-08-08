@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { listarAnuncios, deletarAnuncio } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
 import AnuncioDetalheModal from "../components/AnuncioDetalheModal";
-import { getVisitorId } from "../visitor";
+import { getVisitorId, isAdmin } from "../visitor";
 import type { Anuncio } from "../types";
 
 const USUARIO_ATUAL = getVisitorId();
@@ -80,7 +80,7 @@ export default function Anuncios() {
               key={a.id}
               anuncio={a}
               onClick={setSelecionado}
-              onDelete={a.autor === USUARIO_ATUAL ? handleDelete : undefined}
+              onDelete={isAdmin() || a.autor === USUARIO_ATUAL ? handleDelete : undefined}
             />
           ))}
         </div>
