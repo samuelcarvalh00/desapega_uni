@@ -1,14 +1,30 @@
+import { useEffect, useRef } from "react";
+
 interface ContactModalProps {
   aberto: boolean;
   aoFechar: () => void;
 }
 
 export default function ContactModal({ aberto, aoFechar }: ContactModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (aberto) {
+      document.body.style.overflow = "hidden";
+      if (modalRef.current) {
+        modalRef.current.scrollTop = 0;
+      }
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [aberto]);
+
   if (!aberto) return null;
 
   return (
     <div className="modal-overlay" onClick={aoFechar}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+      <div className="modal" ref={modalRef} onClick={(e) => e.stopPropagation()}>
         <div className="modal__header">
           <img src="/mascote-unifor.png" alt="Mascote UNIFOR" className="modal__mascote" />
           <div>

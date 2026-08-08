@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { listarAnuncios, deletarAnuncio } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
@@ -27,7 +27,7 @@ export default function Anuncios() {
           if (encontrado) setSelecionado(encontrado);
         }
       })
-      .catch(() => setErro("Nao foi possivel carregar os anuncios."))
+      .catch(() => setErro("Não foi possível carregar os anúncios."))
       .finally(() => setCarregando(false));
   }
 
@@ -37,12 +37,12 @@ export default function Anuncios() {
   }, [apenasMeus]);
 
   async function handleDelete(id: number) {
-    if (!confirm("Remover este anuncio?")) return;
+    if (!confirm("Remover este anúncio?")) return;
     try {
       await deletarAnuncio(id);
       setAnuncios((prev) => prev.filter((a) => a.id !== id));
     } catch {
-      alert("Erro ao remover o anuncio.");
+      alert("Erro ao remover o anúncio.");
     }
   }
 
@@ -57,14 +57,14 @@ export default function Anuncios() {
   return (
     <div className="anuncios">
       <div className="anuncios__header">
-        <h1>Anuncios</h1>
+        <h1>Anúncios</h1>
         <label className="toggle">
           <input
             type="checkbox"
             checked={apenasMeus}
             onChange={(e) => setApenasMeus(e.target.checked)}
           />
-          Ver so meus anuncios
+          Ver só meus anúncios
         </label>
       </div>
 
@@ -72,7 +72,7 @@ export default function Anuncios() {
       {carregando ? (
         <p>Carregando...</p>
       ) : anuncios.length === 0 ? (
-        <p>Nenhum anuncio por aqui ainda.</p>
+        <p>Nenhum anúncio por aqui ainda.</p>
       ) : (
         <div className="grid">
           {anuncios.map((a) => (

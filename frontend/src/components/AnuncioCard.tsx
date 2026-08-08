@@ -1,4 +1,5 @@
 import type { Anuncio } from "../types";
+import { capitalizarPrimeiraLetra } from "../utils";
 
 interface AnuncioCardProps {
   anuncio: Anuncio;
@@ -14,11 +15,11 @@ export default function AnuncioCard({ anuncio, onDelete, onClick }: AnuncioCardP
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
-      <img src={anuncio.imagemUrl} alt={anuncio.titulo} className="card__img" />
+      <img src={anuncio.imagemUrl} alt={capitalizarPrimeiraLetra(anuncio.titulo)} className="card__img" />
       <div className="card__body">
-        <span className="card__categoria">{anuncio.categoria}</span>
-        <h3>{anuncio.titulo}</h3>
-        <p className="card__descricao">{anuncio.descricao}</p>
+        <span className="card__categoria">{capitalizarPrimeiraLetra(anuncio.categoria)}</span>
+        <h3>{capitalizarPrimeiraLetra(anuncio.titulo)}</h3>
+        <p className="card__descricao">{capitalizarPrimeiraLetra(anuncio.descricao)}</p>
         <div className="card__footer">
           <span className="card__preco">
             {anuncio.tipo === "doacao" ? "Doação" : `R$ ${anuncio.preco?.toFixed(2)}`}

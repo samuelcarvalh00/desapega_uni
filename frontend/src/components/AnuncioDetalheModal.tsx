@@ -1,4 +1,6 @@
-﻿import type { Anuncio } from "../types";
+import { useEffect, useRef } from "react";
+import type { Anuncio } from "../types";
+import { capitalizarPrimeiraLetra } from "../utils";
 
 interface AnuncioDetalheModalProps {
   anuncio: Anuncio | null;
@@ -14,13 +16,28 @@ function montarLinkDoAnuncio(anuncio: Anuncio) {
 }
 
 function montarMensagemWhatsApp(anuncio: Anuncio) {
-  const acao = anuncio.tipo === "doacao" ? "saber mais sobre a doacao" : "comprar";
+  const acao = anuncio.tipo === "doacao" ? "saber mais sobre a doação" : "comprar";
   const link = montarLinkDoAnuncio(anuncio);
-  const texto = `Oi! Vi seu anuncio "${anuncio.titulo}" no Desapega UNI e queria ${acao}.\n\nVeja o anuncio: ${link}`;
+  const tituloFormatado = capitalizarPrimeiraLetra(anuncio.titulo);
+  const texto = `Oi! Vi seu anúncio "${tituloFormatado}" no Desapega UNI e queria ${acao}.\n\nVeja o anúncio: ${link}`;
   return encodeURIComponent(texto);
 }
 
 export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalheModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (anuncio) {
+      document.body.style.overflow = "hidden";
+      if (modalRef.current) {
+        modalRef.current.scrollTop = 0;
+      }
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [anuncio]);
+
   if (!anuncio) return null;
 
   const contatoEhEmail = ehEmail(anuncio.contato);
@@ -29,29 +46,29 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
 
   return (
     <div className="modal-overlay" onClick={aoFechar}>
-      <div className="modal modal--anuncio" onClick={(e) => e.stopPropagation()}>
-        <button className="modal__fechar" onClick={aoFechar} aria-label="Fechar">X</button>
-        <img src={anuncio.imagemUrl} alt={anuncio.titulo} className="modal__imagem" />
+      <div className="modal modal--anuncio" ref={modalRef} onClick={(e) => e.stopPropagation()}>
+        <button className="modal__fechar" onClick={aoFechar} aria-label="Fechar">×</button>
+        <img src={anuncio.imagemUrl} alt={capitalizarPrimeiraLetra(anuncio.titulo)} className="modal__imagem" />
         <div className="modal__conteudo-anuncio">
-          <span className="card__categoria">{anuncio.categoria}</span>
-          <h2>{anuncio.titulo}</h2>
-          <p className="modal__descricao">{anuncio.descricao}</p>
-          <p className="modal__preco">{anuncio.tipo === "doacao" ? "Doacao" : `R$ ${anuncio.preco?.toFixed(2)}`}</p>
+          <span className="card__categoria">{capitalizarPrimeiraLetra(anuncio.categoria)}</span>
+          <h2>{capitalizarPrimeiraLetra(anuncio.titulo)}</h2>
+          <p className="modal__descricao">{capitalizarPrimeiraLetra(anuncio.descricao)}</p>
+          <p className="modal__preco">{anuncio.tipo === "doacao" ? "Doação" : `R$ ${anuncio.preco?.toFixed(2)}`}</p>
           <div className="modal__contato-anunciante">
             <img src="/mascote-unifor.png" alt="" className="modal__mascote-pequeno" />
             <div>
               <strong>Contato de quem anunciou</strong>
-              <span>Combine a {anuncio.tipo === "doacao" ? "retirada" : "negociacao"} diretamente.</span>
+              <span>Combine a {anuncio.tipo === "doacao" ? "retirada" : "negociação"} diretamente.</span>
             </div>
           </div>
           {contatoEhEmail ? (
-            <a className="modal__contato" href={`mailto:${anuncio.contato}?subject=${encodeURIComponent(`Sobre o anuncio: ${anuncio.titulo}`)}&body=${mensagem}`}>
-              <span className="modal__icone">Email</span>
+            <a className="modal__contato" href={`mailto:${anuncio.contato}?subject=${encodeURIComponent(`Sobre o anúncio: ${capitalizarPrimeiraLetra(anuncio.titulo)}`)}&body=${mensagem}`}>
+              <span className="modal__icone">✉️</span>
               <div><strong>E-mail</strong><span>{anuncio.contato}</span></div>
             </a>
           ) : (
             <a className="modal__contato" href={`https://api.whatsapp.com/send?phone=55${numeroLimpo}&text=${mensagem}`} target="_blank" rel="noopener noreferrer">
-              <span className="modal__icone">WhatsApp</span>
+              <span className="modal__icone">💬</span>
               <div><strong>WhatsApp</strong><span>{anuncio.contato}</span></div>
             </a>
           )}
