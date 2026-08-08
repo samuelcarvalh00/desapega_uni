@@ -31,6 +31,18 @@
           }
         });
       }
+
+      // Se um script ou CSS der erro 404 (hash antigo no Vercel), limpa SWs e recarrega
+      window.addEventListener('error', function(e) {
+        if (e.target && (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+              for (var r of regs) r.unregister();
+              window.location.reload(true);
+            });
+          }
+        }
+      }, true);
     </script>
   </head>
   <body>
