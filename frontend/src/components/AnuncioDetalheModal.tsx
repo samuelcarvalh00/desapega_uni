@@ -1,4 +1,5 @@
-﻿import type { Anuncio } from "../types";
+﻿import { useEffect } from "react";
+import type { Anuncio } from "../types";
 
 interface AnuncioDetalheModalProps {
   anuncio: Anuncio | null;
@@ -21,6 +22,27 @@ function montarMensagemWhatsApp(anuncio: Anuncio) {
 }
 
 export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalheModalProps) {
+  useEffect(() => {
+    if (!anuncio) return;
+
+    const scrollY = window.scrollY;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+
+    window.scrollTo({ top: 0, behavior: "instant" });
+
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo({ top: scrollY, behavior: "instant" });
+    };
+  }, [anuncio]);
+
   if (!anuncio) return null;
 
   const contatoEhEmail = ehEmail(anuncio.contato);
