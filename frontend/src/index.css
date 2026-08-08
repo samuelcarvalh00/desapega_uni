@@ -874,7 +874,7 @@ a.modal__contato:hover {
 }
 
 /* ============================================
-   FIX MODAL MOBILE — Bottom Sheet + Scroll Lock
+   FIX MODAL MOBILE — Bottom Sheet + Scroll
    ============================================ */
 
 @media (max-width: 600px) {
@@ -894,16 +894,22 @@ a.modal__contato:hover {
     margin: 0;
     animation: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
     overflow-y: auto;
-    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    display: block;
   }
 
   .modal--anuncio {
-    border-radius: 16px 16px 0 0;
-    max-height: 85dvh;
-    max-height: 85vh;
     padding: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    display: block;
+  }
+
+  .modal--anuncio .modal__fechar {
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 
   .modal__imagem {
@@ -916,15 +922,6 @@ a.modal__contato:hover {
     padding: 1rem 1.25rem 1.5rem;
     overflow: visible;
     flex: none;
-  }
-
-  .modal--anuncio .modal__fechar {
-    right: 0.5rem;
-    top: 0.5rem;
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 }
 
