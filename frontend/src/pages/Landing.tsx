@@ -4,7 +4,7 @@ import { listarAnuncios } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
 import type { Anuncio } from "../types";
 
-const CATEGORIAS = ["Todos", "Livros", "Informática", "Itens de Papelaria", "Roupas", "Objetos"];
+const CATEGORIAS = ["Todos", "Livros", "Engenharia", "Computação", "Jalecos"];
 
 export default function Landing() {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
@@ -22,6 +22,7 @@ export default function Landing() {
   return (
     <div className="landing">
       <section className="hero">
+        <img src="/mascote-unifor.png" alt="Mascote UNIFOR" className="hero__mascote" />
         <h1>Economia circular dentro do seu campus</h1>
         <p>
           Doe, venda e encontre livros, calculadoras, jalecos e materiais que
