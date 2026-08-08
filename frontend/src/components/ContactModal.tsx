@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { useLockBodyScroll } from "../hooks/useLockBodyScroll";
 
 interface ContactModalProps {
   aberto: boolean;
@@ -7,18 +8,7 @@ interface ContactModalProps {
 
 export default function ContactModal({ aberto, aoFechar }: ContactModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (aberto) {
-      document.body.style.overflow = "hidden";
-      if (modalRef.current) {
-        modalRef.current.scrollTop = 0;
-      }
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [aberto]);
+  useLockBodyScroll(aberto);
 
   if (!aberto) return null;
 

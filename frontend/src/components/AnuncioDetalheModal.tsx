@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { deletarAnuncio } from "../api";
 import type { Anuncio } from "../types";
 import { capitalizarPrimeiraLetra } from "../utils";
 import { getVisitorId, isAdmin } from "../visitor";
+import { useLockBodyScroll } from "../hooks/useLockBodyScroll";
 
 interface AnuncioDetalheModalProps {
   anuncio: Anuncio | null;
@@ -27,18 +28,7 @@ function montarMensagemWhatsApp(anuncio: Anuncio) {
 
 export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalheModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (anuncio) {
-      document.body.style.overflow = "hidden";
-      if (modalRef.current) {
-        modalRef.current.scrollTop = 0;
-      }
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [anuncio]);
+  useLockBodyScroll(!!anuncio);
 
   if (!anuncio) return null;
 
@@ -72,7 +62,7 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
           ) : (
             <a className="modal__contato" href={`https://api.whatsapp.com/send?phone=55${numeroLimpo}&text=${mensagem}`} target="_blank" rel="noopener noreferrer">
               <span className="modal__icone">💬</span>
-              <div><strong>WhatsApp</strong><span>{anuncio.contato}</span></div>
+              <div><strong>WhatsApp</strong><span>{numeroLimpo}</span></div>
             </a>
           )}
 

@@ -873,49 +873,45 @@ a.modal__contato:hover {
   border-color: #e05252;
 }
 
+
 /* ============================================
-   FIX MODAL MOBILE — Bottom Sheet Style
+   FIX MODAL MOBILE — Body scroll lock + Bottom Sheet
    ============================================ */
 
 @media (max-width: 600px) {
-  /* Overlay: remove padding e alinha no bottom */
   .modal-overlay {
     padding: 0;
     align-items: flex-end;
     justify-content: center;
   }
 
-  /* Modal vira bottom sheet */
   .modal {
     max-width: 100%;
     width: 100%;
     border-radius: 16px 16px 0 0;
-    max-height: 90dvh;
-    max-height: 90vh; /* fallback */
+    max-height: 85dvh;
+    max-height: 85vh;
     margin: 0;
     animation: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  /* Modal de anúncio herda o mesmo estilo */
   .modal--anuncio {
     border-radius: 16px 16px 0 0;
-    max-height: 90dvh;
-    max-height: 90vh;
+    max-height: 85dvh;
+    max-height: 85vh;
+    padding: 0;
   }
 
-  /* Imagem arredonda só o topo */
   .modal__imagem {
     border-radius: 16px 16px 0 0;
-    height: 200px;
-    max-height: 28vh;
+    height: 180px;
+    max-height: 25vh;
   }
 
-  /* Conteúdo precisa scrollar sozinho */
   .modal__conteudo-anuncio {
     padding: 1rem 1.25rem 1.5rem;
   }
 
-  /* Botão fechar fica mais acessível no topo */
   .modal--anuncio .modal__fechar {
     right: 0.5rem;
     top: 0.5rem;
@@ -926,7 +922,6 @@ a.modal__contato:hover {
   }
 }
 
-/* Animação de subir no mobile */
 @keyframes modal-slide-up {
   from {
     opacity: 0;
