@@ -10,7 +10,7 @@ function ehEmail(contato: string) {
 }
 
 function montarLinkDoAnuncio(anuncio: Anuncio) {
-  return `${window.location.origin}/anuncios?item=${anuncio.id}`;
+  return `${window.location.origin}/anuncios/${anuncio.id}`;
 }
 
 function montarMensagemWhatsApp(anuncio: Anuncio) {

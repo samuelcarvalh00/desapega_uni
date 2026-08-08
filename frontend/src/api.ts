@@ -29,3 +29,9 @@ export async function deletarAnuncio(id: number): Promise<void> {
   const res = await fetch(`${API_URL}/api/anuncios/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error("Erro ao deletar anúncio");
 }
+
+export async function buscarAnuncio(id: number): Promise<Anuncio> {
+  const res = await fetch(`${API_URL}/api/anuncios/${id}`);
+  if (!res.ok) throw new Error("Erro ao buscar anúncio");
+  return res.json();
+}
