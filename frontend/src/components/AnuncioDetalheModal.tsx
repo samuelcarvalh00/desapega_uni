@@ -64,7 +64,7 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
           ) : (
             
               className="modal__contato"
-              href={`https://wa.me/55${numeroLimpo}?text=${mensagem}`}
+              href={`https://api.whatsapp.com/send?phone=55${numeroLimpo}&text=${mensagem}`}
               target="_blank"
               rel="noopener noreferrer"
             >
