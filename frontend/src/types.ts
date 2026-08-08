@@ -9,6 +9,7 @@ export interface Anuncio {
   tipo: TipoAnuncio;
   preco: number | null;
   imagemUrl: string;
+  contato: string;
   autor: string;
   criadoEm: string;
 }
@@ -21,6 +22,7 @@ export interface NovoAnuncioInput {
   tipo: TipoAnuncio;
   preco?: number | string;
   imagemUrl?: string;
+  contato: string;
   autor: string;
 }
 

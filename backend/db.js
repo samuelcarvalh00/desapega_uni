@@ -1,6 +1,6 @@
 // db.js
 // Camada de acesso ao banco de dados Postgres.
-// Esta é a UNICA parte do sistema que conversa diretamente com o banco -
+// Esta e a UNICA parte do sistema que conversa diretamente com o banco -
 // as rotas nunca escrevem SQL, sempre chamam uma funcao daqui.
 
 const { Pool } = require("pg");
@@ -14,8 +14,8 @@ const pool = new Pool({
     "postgresql://vortex:vortex123@localhost:5432/vortex_marketplace"
 });
 
-// Garante que a tabela existe e, se estiver vazia, semeia alguns anúncios
-// de exemplo (equivalente ao que a versão em arquivo fazia).
+// Garante que a tabela existe (e tem as colunas mais recentes) e, se
+// estiver vazia, semeia alguns anúncios de exemplo.
 async function init() {
   const schema = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf-8");
   await pool.query(schema);
@@ -23,11 +23,11 @@ async function init() {
   const { rows } = await pool.query("SELECT COUNT(*)::int AS total FROM anuncios");
   if (rows[0].total === 0) {
     await pool.query(
-      `INSERT INTO anuncios (titulo, descricao, categoria, tipo, preco, imagem_url, autor)
+      `INSERT INTO anuncios (titulo, descricao, categoria, tipo, preco, imagem_url, contato, autor)
        VALUES
-       ('Cálculo Vol. 1 - James Stewart', 'Livro usado, em bom estado, poucas anotações a lápis.', 'Livros', 'venda', 45.00, 'https://picsum.photos/seed/livro1/400/300', 'convidado'),
-       ('Calculadora Científica HP 12C', 'Funcionando perfeitamente, ideal para Engenharia.', 'Engenharia', 'venda', 120.00, 'https://picsum.photos/seed/calc1/400/300', 'convidado'),
-       ('Jaleco Branco Tamanho M', 'Doação para quem está começando o curso.', 'Jalecos', 'doacao', NULL, 'https://picsum.photos/seed/jaleco1/400/300', 'convidado')`
+       ('Cálculo Vol. 1 - James Stewart', 'Livro usado, em bom estado, poucas anotações a lápis.', 'Livros', 'venda', 45.00, 'https://picsum.photos/seed/livro1/400/300', 'contato@exemplo.com', 'convidado'),
+       ('Calculadora Científica HP 12C', 'Funcionando perfeitamente, ideal para Engenharia.', 'Eletrônicos', 'venda', 120.00, 'https://picsum.photos/seed/calc1/400/300', '(85) 90000-0000', 'convidado'),
+       ('Jaleco Branco Tamanho M', 'Doação para quem está começando o curso.', 'Roupas', 'doacao', NULL, 'https://picsum.photos/seed/jaleco1/400/300', 'contato@exemplo.com', 'convidado')`
     );
   }
 }
@@ -42,6 +42,7 @@ function paraAnuncio(row) {
     tipo: row.tipo,
     preco: row.preco !== null ? Number(row.preco) : null,
     imagemUrl: row.imagem_url,
+    contato: row.contato,
     autor: row.autor,
     criadoEm: row.criado_em
   };
@@ -77,10 +78,10 @@ async function buscarAnuncioPorId(id) {
   return rows[0] ? paraAnuncio(rows[0]) : null;
 }
 
-async function criarAnuncio({ titulo, descricao, categoria, tipo, preco, imagemUrl, autor }) {
+async function criarAnuncio({ titulo, descricao, categoria, tipo, preco, imagemUrl, contato, autor }) {
   const { rows } = await pool.query(
-    `INSERT INTO anuncios (titulo, descricao, categoria, tipo, preco, imagem_url, autor)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO anuncios (titulo, descricao, categoria, tipo, preco, imagem_url, contato, autor)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
      RETURNING *`,
     [
       titulo,
@@ -89,6 +90,7 @@ async function criarAnuncio({ titulo, descricao, categoria, tipo, preco, imagemU
       tipo,
       tipo === "venda" ? preco : null,
       imagemUrl || "https://picsum.photos/400/300",
+      contato,
       autor || "anonimo"
     ]
   );

@@ -1,10 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-interface BottomNavProps {
-  aoAbrirContato: () => void;
-}
-
-export default function BottomNav({ aoAbrirContato }: BottomNavProps) {
+export default function BottomNav() {
   return (
     <nav className="bottom-nav">
       <NavLink
@@ -24,15 +20,13 @@ export default function BottomNav({ aoAbrirContato }: BottomNavProps) {
         <span>Anúncios</span>
       </NavLink>
 
-      <NavLink to="/anuncios/novo" className="bottom-nav__item bottom-nav__item--destaque">
+      <NavLink
+        to="/anuncios/novo"
+        className={({ isActive }) => `bottom-nav__item bottom-nav__item--destaque ${isActive ? "bottom-nav__item--ativo" : ""}`}
+      >
         <span className="bottom-nav__icone bottom-nav__icone--destaque">+</span>
         <span>Anunciar</span>
       </NavLink>
-
-      <button className="bottom-nav__item bottom-nav__item--botao" onClick={aoAbrirContato}>
-        <span className="bottom-nav__icone">💬</span>
-        <span>Contato</span>
-      </button>
     </nav>
   );
 }

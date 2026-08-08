@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { listarAnuncios } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
+import AnuncioDetalheModal from "../components/AnuncioDetalheModal";
 import type { Anuncio } from "../types";
 
 const CATEGORIAS = ["Todos", "Livros", "Engenharia", "Computação", "Jalecos"];
@@ -10,6 +11,7 @@ export default function Landing() {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [categoria, setCategoria] = useState<string>("Todos");
   const [carregando, setCarregando] = useState<boolean>(true);
+  const [selecionado, setSelecionado] = useState<Anuncio | null>(null);
 
   useEffect(() => {
     setCarregando(true);
@@ -74,11 +76,13 @@ export default function Landing() {
         ) : (
           <div className="grid">
             {anuncios.slice(0, 6).map((a) => (
-              <AnuncioCard key={a.id} anuncio={a} />
+              <AnuncioCard key={a.id} anuncio={a} onClick={setSelecionado} />
             ))}
           </div>
         )}
       </section>
+
+      <AnuncioDetalheModal anuncio={selecionado} aoFechar={() => setSelecionado(null)} />
     </div>
   );
 }

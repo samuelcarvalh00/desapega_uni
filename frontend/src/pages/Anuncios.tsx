@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { listarAnuncios, deletarAnuncio } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
+import AnuncioDetalheModal from "../components/AnuncioDetalheModal";
 import { getVisitorId } from "../visitor";
 import type { Anuncio } from "../types";
 
@@ -13,6 +14,7 @@ export default function Anuncios() {
   const [apenasMeus, setApenasMeus] = useState<boolean>(false);
   const [carregando, setCarregando] = useState<boolean>(true);
   const [erro, setErro] = useState<string | null>(null);
+  const [selecionado, setSelecionado] = useState<Anuncio | null>(null);
 
   function carregar() {
     setCarregando(true);
@@ -62,11 +64,14 @@ export default function Anuncios() {
             <AnuncioCard
               key={a.id}
               anuncio={a}
+              onClick={setSelecionado}
               onDelete={a.autor === USUARIO_ATUAL ? handleDelete : undefined}
             />
           ))}
         </div>
       )}
+
+      <AnuncioDetalheModal anuncio={selecionado} aoFechar={() => setSelecionado(null)} />
     </div>
   );
 }

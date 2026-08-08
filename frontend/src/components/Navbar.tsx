@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 
-interface NavbarProps {
-  aoAbrirContato: () => void;
-}
-
-export default function Navbar({ aoAbrirContato }: NavbarProps) {
+export default function Navbar() {
   return (
     <header className="navbar">
       <Link to="/" className="navbar__brand">
@@ -13,9 +9,6 @@ export default function Navbar({ aoAbrirContato }: NavbarProps) {
       </Link>
       <nav className="navbar__links">
         <Link to="/anuncios">Anúncios</Link>
-        <button className="navbar__link-botao" onClick={aoAbrirContato}>
-          Contato
-        </button>
         <Link to="/anuncios/novo" className="navbar__cta">
           Anunciar item
         </Link>

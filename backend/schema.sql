@@ -11,9 +11,13 @@ CREATE TABLE IF NOT EXISTS anuncios (
   tipo VARCHAR(10) NOT NULL CHECK (tipo IN ('venda', 'doacao')),
   preco NUMERIC(10, 2),
   imagem_url TEXT,
+  contato VARCHAR(150) NOT NULL DEFAULT '',
   autor VARCHAR(80) NOT NULL DEFAULT 'anonimo',
   criado_em TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Se a tabela ja existia antes desse campo, garante que a coluna e adicionada
+ALTER TABLE anuncios ADD COLUMN IF NOT EXISTS contato VARCHAR(150) NOT NULL DEFAULT '';
 
 CREATE INDEX IF NOT EXISTS idx_anuncios_categoria ON anuncios (categoria);
 CREATE INDEX IF NOT EXISTS idx_anuncios_autor ON anuncios (autor);

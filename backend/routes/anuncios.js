@@ -30,11 +30,11 @@ router.get("/:id", async (req, res, next) => {
 // POST /api/anuncios -> cria um novo anúncio
 router.post("/", async (req, res, next) => {
   try {
-    const { titulo, descricao, categoria, tipo, preco, imagemUrl, autor } = req.body;
+    const { titulo, descricao, categoria, tipo, preco, imagemUrl, contato, autor } = req.body;
 
-    if (!titulo || !descricao || !categoria || !tipo) {
+    if (!titulo || !descricao || !categoria || !tipo || !contato) {
       return res.status(400).json({
-        erro: "Campos obrigatórios: titulo, descricao, categoria, tipo."
+        erro: "Campos obrigatórios: titulo, descricao, categoria, tipo, contato."
       });
     }
     if (tipo !== "venda" && tipo !== "doacao") {
@@ -50,6 +50,7 @@ router.post("/", async (req, res, next) => {
       tipo,
       preco: Number(preco) || 0,
       imagemUrl,
+      contato,
       autor
     });
 

@@ -15,6 +15,7 @@ interface FormState {
   tipo: TipoAnuncio;
   preco: string;
   imagemUrl: string;
+  contato: string;
 }
 
 export default function NovoAnuncio() {
@@ -25,7 +26,8 @@ export default function NovoAnuncio() {
     categoria: CATEGORIAS[0],
     tipo: "venda",
     preco: "",
-    imagemUrl: ""
+    imagemUrl: "",
+    contato: ""
   });
   const [enviando, setEnviando] = useState<boolean>(false);
   const [erro, setErro] = useState<string | null>(null);
@@ -39,8 +41,8 @@ export default function NovoAnuncio() {
     e.preventDefault();
     setErro(null);
 
-    if (!form.titulo || !form.descricao || !form.categoria) {
-      setErro("Preencha título, descrição e categoria.");
+    if (!form.titulo || !form.descricao || !form.categoria || !form.contato) {
+      setErro("Preencha título, descrição, categoria e uma forma de contato.");
       return;
     }
 
@@ -109,6 +111,20 @@ export default function NovoAnuncio() {
             onChange={handleChange}
           />
         </label>
+
+        <label>
+          Contato (e-mail ou WhatsApp)
+          <input
+            name="contato"
+            placeholder="seuemail@exemplo.com ou (85) 90000-0000"
+            value={form.contato}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <p className="form__ajuda">
+          Esse contato vai aparecer para quem clicar no seu anúncio, pra combinar a doação/venda.
+        </p>
 
         {erro && <p className="erro">{erro}</p>}
 
