@@ -5,7 +5,7 @@ import AnuncioCard from "../components/AnuncioCard";
 import AnuncioDetalheModal from "../components/AnuncioDetalheModal";
 import type { Anuncio } from "../types";
 
-const CATEGORIAS = ["Todos", "Livros", "Engenharia", "Computação", "Jalecos"];
+const CATEGORIAS = ["Todos", "Livros", "Objetos", "Informática", "Roupas"];
 
 export default function Landing() {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
@@ -48,10 +48,6 @@ export default function Landing() {
         <div className="stat">
           <strong>350kg</strong>
           <span>de material reaproveitado (simulado)</span>
-        </div>
-        <div className="stat">
-          <strong>4</strong>
-          <span>categorias no campus</span>
         </div>
       </section>
 

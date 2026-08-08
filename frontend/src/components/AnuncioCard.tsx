@@ -18,7 +18,7 @@ export default function AnuncioCard({ anuncio, onDelete, onClick }: AnuncioCardP
       <div className="card__body">
         <span className="card__categoria">{anuncio.categoria}</span>
         <h3>{anuncio.titulo}</h3>
-        <p>{anuncio.descricao}</p>
+        <p className="card__descricao">{anuncio.descricao}</p>
         <div className="card__footer">
           <span className="card__preco">
             {anuncio.tipo === "doacao" ? "Doação" : `R$ ${anuncio.preco?.toFixed(2)}`}

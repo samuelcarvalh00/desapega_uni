@@ -27,19 +27,15 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
 
     const scrollY = window.scrollY;
 
+    // Trava o scroll sem quebrar o layout no mobile
     document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
 
-    window.scrollTo({ top: 0, behavior: "instant" });
+    // Joga pro topo — formato simples, compatível com todos os navegadores
+    window.scrollTo(0, 0);
 
     return () => {
       document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      window.scrollTo({ top: scrollY, behavior: "instant" });
+      window.scrollTo(0, scrollY);
     };
   }, [anuncio]);
 
@@ -51,7 +47,7 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
 
   return (
     <div className="modal-overlay" onClick={aoFechar}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+      <div className="modal modal--anuncio" onClick={(e) => e.stopPropagation()}>
         <button className="modal__fechar" onClick={aoFechar} aria-label="Fechar">X</button>
         <img src={anuncio.imagemUrl} alt={anuncio.titulo} className="modal__imagem" />
         <div className="modal__conteudo-anuncio">
