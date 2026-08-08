@@ -9,12 +9,19 @@ function ehEmail(contato: string) {
   return contato.includes("@");
 }
 
+function montarMensagemWhatsApp(anuncio: Anuncio) {
+  const acao = anuncio.tipo === "doacao" ? "saber mais sobre a doação" : "comprar";
+  const texto = `Oi! Vi seu anúncio "${anuncio.titulo}" no Desapega UNI e queria ${acao}.`;
+  return encodeURIComponent(texto);
+}
+
 export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalheModalProps) {
   if (!anuncio) return null;
 
   const contatoEhEmail = ehEmail(anuncio.contato);
   // Deixa só numeros no contato, pra montar um link do WhatsApp quando nao for e-mail
   const numeroLimpo = anuncio.contato.replace(/\D/g, "");
+  const mensagem = montarMensagemWhatsApp(anuncio);
 
   return (
     <div className="modal-overlay" onClick={aoFechar}>
@@ -42,7 +49,12 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
           </div>
 
           {contatoEhEmail ? (
-            <a className="modal__contato" href={`mailto:${anuncio.contato}`}>
+            
+              className="modal__contato"
+              href={`mailto:${anuncio.contato}?subject=${encodeURIComponent(
+                `Sobre o anúncio: ${anuncio.titulo}`
+              )}&body=${mensagem}`}
+            >
               <span className="modal__icone">✉️</span>
               <div>
                 <strong>E-mail</strong>
@@ -50,9 +62,9 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
               </div>
             </a>
           ) : (
-            <a
+            
               className="modal__contato"
-              href={`https://wa.me/55${numeroLimpo}`}
+              href={`https://wa.me/55${numeroLimpo}?text=${mensagem}`}
               target="_blank"
               rel="noopener noreferrer"
             >
