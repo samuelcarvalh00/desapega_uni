@@ -11,7 +11,7 @@ function ehEmail(contato: string) {
 
 function montarMensagemWhatsApp(anuncio: Anuncio) {
   const acao = anuncio.tipo === "doacao" ? "saber mais sobre a doacao" : "comprar";
-  const texto = `Oi! Vi seu anuncio "${anuncio.titulo}" no Desapega UNI e queria ${acao}.`;
+  const texto = `Oi! Vi seu anuncio "${anuncio.titulo}" no Desapega UNI e queria ${acao}.\n\nFoto do item: ${anuncio.imagemUrl}`;
   return encodeURIComponent(texto);
 }
 
