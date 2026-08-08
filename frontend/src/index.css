@@ -134,12 +134,16 @@ a { text-decoration: none; color: inherit; transition: color 0.2s ease, opacity 
   border-color: transparent;
 }
 .card__img {
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-  display: block;
+  width: 100% !important;
+  height: 200px !important;
+  max-height: 200px !important;
+  object-fit: contain !important;
+  display: block !important;
   transition: transform 0.35s ease;
-  background-color: #e2e8e5;
+  background-color: #f8faf8 !important;
+  padding: 0.6rem !important;
+  box-sizing: border-box !important;
+  border-bottom: 1px solid #edf0ee !important;
 }
 .card:hover .card__img { transform: scale(1.05); }
 .card__body { padding: 0.9rem; overflow: hidden; }
@@ -395,13 +399,16 @@ a.modal__contato:hover {
 }
 .modal--anuncio .modal__fechar:hover { background: white; color: var(--texto); }
 .modal__imagem {
-  width: 100%;
-  height: 260px;
-  max-height: 40vh;
-  object-fit: cover;
-  display: block;
-  border-radius: 16px 16px 0 0;
-  background-color: #e2e8e5;
+  width: 100% !important;
+  height: 280px !important;
+  max-height: 45vh !important;
+  object-fit: contain !important;
+  display: block !important;
+  border-radius: 16px 16px 0 0 !important;
+  background-color: #f8faf8 !important;
+  padding: 0.8rem !important;
+  box-sizing: border-box !important;
+  border-bottom: 1px solid #edf0ee !important;
 }
 .modal__conteudo-anuncio { padding: 1.25rem 1.5rem 1.5rem; }
 .modal__conteudo-anuncio h2 { margin: 0.3rem 0 0.5rem; font-size: 1.25rem; }

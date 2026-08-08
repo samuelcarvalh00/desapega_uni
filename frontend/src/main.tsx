@@ -4,12 +4,20 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
+// Purga automática de Service Workers antigos mantidos em cache nos navegadores
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then(() => console.log("Service Worker registrado"))
-      .catch((err) => console.error("Erro ao registrar Service Worker", err));
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const reg of registrations) {
+      reg.unregister();
+    }
+  });
+}
+
+if ("caches" in window) {
+  caches.keys().then((keys) => {
+    for (const key of keys) {
+      caches.delete(key);
+    }
   });
 }
 
