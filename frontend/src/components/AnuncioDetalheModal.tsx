@@ -9,9 +9,14 @@ function ehEmail(contato: string) {
   return contato.includes("@");
 }
 
+function montarLinkDoAnuncio(anuncio: Anuncio) {
+  return `${window.location.origin}/anuncios?item=${anuncio.id}`;
+}
+
 function montarMensagemWhatsApp(anuncio: Anuncio) {
   const acao = anuncio.tipo === "doacao" ? "saber mais sobre a doacao" : "comprar";
-  const texto = `Oi! Vi seu anuncio "${anuncio.titulo}" no Desapega UNI e queria ${acao}.\n\nFoto do item: ${anuncio.imagemUrl}`;
+  const link = montarLinkDoAnuncio(anuncio);
+  const texto = `Oi! Vi seu anuncio "${anuncio.titulo}" no Desapega UNI e queria ${acao}.\n\nVeja o anuncio: ${link}`;
   return encodeURIComponent(texto);
 }
 

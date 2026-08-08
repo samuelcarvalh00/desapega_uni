@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { listarAnuncios, deletarAnuncio } from "../api";
 import AnuncioCard from "../components/AnuncioCard";
 import AnuncioDetalheModal from "../components/AnuncioDetalheModal";
 import { getVisitorId } from "../visitor";
 import type { Anuncio } from "../types";
 
-// ID simples por navegador, salvo em localStorage (nao e login de verdade,
-// so evita que todo mundo que acessa o site apareca como o mesmo "autor").
 const USUARIO_ATUAL = getVisitorId();
 
 export default function Anuncios() {
@@ -15,12 +14,20 @@ export default function Anuncios() {
   const [carregando, setCarregando] = useState<boolean>(true);
   const [erro, setErro] = useState<string | null>(null);
   const [selecionado, setSelecionado] = useState<Anuncio | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   function carregar() {
     setCarregando(true);
     listarAnuncios(apenasMeus ? { autor: USUARIO_ATUAL } : {})
-      .then(setAnuncios)
-      .catch(() => setErro("Não foi possível carregar os anúncios."))
+      .then((lista) => {
+        setAnuncios(lista);
+        const idNaUrl = searchParams.get("item");
+        if (idNaUrl) {
+          const encontrado = lista.find((a) => a.id === Number(idNaUrl));
+          if (encontrado) setSelecionado(encontrado);
+        }
+      })
+      .catch(() => setErro("Nao foi possivel carregar os anuncios."))
       .finally(() => setCarregando(false));
   }
 
@@ -30,26 +37,34 @@ export default function Anuncios() {
   }, [apenasMeus]);
 
   async function handleDelete(id: number) {
-    if (!confirm("Remover este anúncio?")) return;
+    if (!confirm("Remover este anuncio?")) return;
     try {
       await deletarAnuncio(id);
       setAnuncios((prev) => prev.filter((a) => a.id !== id));
     } catch {
-      alert("Erro ao remover o anúncio.");
+      alert("Erro ao remover o anuncio.");
+    }
+  }
+
+  function fecharModal() {
+    setSelecionado(null);
+    if (searchParams.get("item")) {
+      searchParams.delete("item");
+      setSearchParams(searchParams, { replace: true });
     }
   }
 
   return (
     <div className="anuncios">
       <div className="anuncios__header">
-        <h1>Anúncios</h1>
+        <h1>Anuncios</h1>
         <label className="toggle">
           <input
             type="checkbox"
             checked={apenasMeus}
             onChange={(e) => setApenasMeus(e.target.checked)}
           />
-          Ver só meus anúncios
+          Ver so meus anuncios
         </label>
       </div>
 
@@ -57,7 +72,7 @@ export default function Anuncios() {
       {carregando ? (
         <p>Carregando...</p>
       ) : anuncios.length === 0 ? (
-        <p>Nenhum anúncio por aqui ainda.</p>
+        <p>Nenhum anuncio por aqui ainda.</p>
       ) : (
         <div className="grid">
           {anuncios.map((a) => (
@@ -71,7 +86,7 @@ export default function Anuncios() {
         </div>
       )}
 
-      <AnuncioDetalheModal anuncio={selecionado} aoFechar={() => setSelecionado(null)} />
+      <AnuncioDetalheModal anuncio={selecionado} aoFechar={fecharModal} />
     </div>
   );
 }
