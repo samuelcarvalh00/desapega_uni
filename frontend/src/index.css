@@ -873,34 +873,63 @@ a.modal__contato:hover {
   border-color: #e05252;
 }
 
-/* ============================================
+/* ==========================================
    FIX MODAL MOBILE — Bottom Sheet + Scroll
-   ============================================ */
+   ========================================== */
 
+/* Overlay escuro que cobre TUDO, inclusive barras do browser */
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  width: 100%;
+  height: 100%;
+  height: 100dvh; /* fallback moderno */
+  background: rgba(20, 30, 25, 0.65); /* escurecido um pouco mais */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 9999; /* acima de TUDO, inclusive BottomNav */
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none; /* trava gestos de scroll no overlay */
+  animation: overlay-in 0.2s ease both;
+}
+
+/* Mobile: bottom sheet fixo no bottom */
 @media (max-width: 600px) {
   .modal-overlay {
     padding: 0;
-    align-items: flex-end;
+    align-items: flex-end; /* joga pro bottom */
     justify-content: center;
     overflow: hidden;
   }
 
   .modal {
+    position: fixed; /* FIXADO no viewport, independente do body */
+    bottom: 0;
+    left: 0;
+    right: 0;
     max-width: 100%;
     width: 100%;
     border-radius: 16px 16px 0 0;
+    max-height: 85svh; /* small viewport = sem barra de endereço */
     max-height: 85dvh;
-    max-height: 85vh;
     margin: 0;
     animation: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    overscroll-behavior: contain;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
   }
 
   .modal--anuncio {
     padding: 0;
-    display: block;
+    display: flex;
   }
 
   .modal--anuncio .modal__fechar {
@@ -916,12 +945,16 @@ a.modal__contato:hover {
     border-radius: 16px 16px 0 0;
     height: 180px;
     max-height: 25vh;
+    flex-shrink: 0;
   }
 
+  /* O conteúdo é quem scrolla internamente */
   .modal__conteudo-anuncio {
     padding: 1rem 1.25rem 1.5rem;
-    overflow: visible;
-    flex: none;
+    overflow-y: auto;
+    flex: 1 1 auto;
+    overscroll-behavior: contain;
+    min-height: 0; /* importante pro flex scrollar */
   }
 }
 
