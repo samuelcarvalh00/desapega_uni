@@ -1,3 +1,7 @@
+/* ==========================================
+   Desapega UNI — Global Styles
+   ========================================== */
+
 :root {
   --verde: #1f8a56;
   --verde-escuro: #146540;
@@ -31,7 +35,9 @@ a {
   }
 }
 
-/* Navbar */
+/* ==========================================
+   Navbar
+   ========================================== */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -62,12 +68,12 @@ a {
   align-items: center;
 }
 
-.navbar__links>a:not(.navbar__cta) {
+.navbar__links > a:not(.navbar__cta) {
   position: relative;
   padding-bottom: 2px;
 }
 
-.navbar__links>a:not(.navbar__cta)::after {
+.navbar__links > a:not(.navbar__cta)::after {
   content: "";
   position: absolute;
   left: 0;
@@ -78,7 +84,7 @@ a {
   transition: width 0.25s ease;
 }
 
-.navbar__links>a:not(.navbar__cta):hover::after {
+.navbar__links > a:not(.navbar__cta):hover::after {
   width: 100%;
 }
 
@@ -100,7 +106,9 @@ a {
   transform: translateY(0);
 }
 
-/* Botões */
+/* ==========================================
+   Botões
+   ========================================== */
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
@@ -150,7 +158,9 @@ a {
   box-shadow: none !important;
 }
 
-/* Landing / Hero */
+/* ==========================================
+   Landing / Hero
+   ========================================== */
 .hero {
   padding: 3rem 1.5rem;
   text-align: center;
@@ -199,7 +209,7 @@ a {
   margin: 0 auto;
 }
 
-.filtros {
+.filters {
   display: flex;
   gap: 0.5rem;
   margin: 1rem 0;
@@ -232,7 +242,9 @@ a {
   color: white;
 }
 
-/* Grid de cards */
+/* ==========================================
+   Grid de cards
+   ========================================== */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -336,7 +348,9 @@ a {
   transform: translateY(-1px);
 }
 
-/* Anúncios / mobile app feel */
+/* ==========================================
+   Anúncios / mobile app feel
+   ========================================== */
 .anuncios {
   padding: 1.5rem;
   max-width: 1100px;
@@ -365,7 +379,9 @@ a {
   accent-color: var(--verde);
 }
 
-/* Formulário */
+/* ==========================================
+   Formulário
+   ========================================== */
 .form-page {
   padding: 1.5rem;
   max-width: 480px;
@@ -427,7 +443,9 @@ a {
   font-size: 0.9rem;
 }
 
-/* Fade-in suave ao trocar de página */
+/* ==========================================
+   Fade-in suave ao trocar de página
+   ========================================== */
 .landing,
 .anuncios,
 .form-page {
@@ -439,14 +457,15 @@ a {
     opacity: 0;
     transform: translateY(6px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Mobile */
+/* ==========================================
+   Mobile geral
+   ========================================== */
 @media (max-width: 600px) {
   .navbar__links {
     gap: 0.75rem;
@@ -461,7 +480,9 @@ a {
   }
 }
 
-/* ===== Mascote ===== */
+/* ==========================================
+   Mascote
+   ========================================== */
 .navbar__mascote {
   width: 28px;
   height: 28px;
@@ -481,7 +502,9 @@ a {
   margin-bottom: 1rem;
 }
 
-/* ===== Navbar: botão de contato no estilo de link ===== */
+/* ==========================================
+   Navbar: botão de contato no estilo de link
+   ========================================== */
 .navbar__link-botao {
   background: none;
   border: none;
@@ -508,37 +531,39 @@ a {
   width: 100%;
 }
 
-/* ===== Modal base (funciona pra contato e anúncio) ===== */
+/* ==========================================
+   MODAL — Bottom Sheet Mobile Fix
+   ========================================== */
+
+/* Trava o scroll de verdade no mobile */
+html.modal-open,
+html.modal-open body {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+}
+
+/* Overlay: cobre TUDO, acima de TUDO */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100dvh;
-  background: rgba(20, 30, 25, 0.55);
-  backdrop-filter: blur(3px);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  z-index: 1000;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  z-index: 99999;
   animation: overlay-in 0.2s ease both;
 }
 
 @keyframes overlay-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
+/* Modal base */
 .modal {
   background: white;
   border-radius: 16px;
@@ -552,7 +577,6 @@ a {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: auto;
 }
 
 @keyframes modal-in {
@@ -560,21 +584,159 @@ a {
     opacity: 0;
     transform: translateY(12px) scale(0.98);
   }
-
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-.modal__header {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-  position: relative;
+/* ===== MOBILE: Bottom Sheet ===== */
+@media (max-width: 600px) {
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 85svh;
+    max-height: 85dvh;
+    margin: 0;
+    padding: 0;
+    animation: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @keyframes modal-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Modal de anúncio */
+  .modal--anuncio {
+    padding: 0;
+  }
+
+  .modal--anuncio .modal__fechar {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #444;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .modal__imagem {
+    width: 100%;
+    height: 180px;
+    max-height: 25vh;
+    object-fit: contain;
+    display: block;
+    border-radius: 16px 16px 0 0;
+    background-color: #f8faf8;
+    padding: 0.8rem;
+    box-sizing: border-box;
+    border-bottom: 1px solid #edf0ee;
+    flex-shrink: 0;
+  }
+
+  /* SÓ ESSE ELEMENTO SCROLLA — e não vaza pro body */
+  .modal__conteudo-anuncio {
+    padding: 1rem 1.25rem 1.5rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* Modal de contato no mobile */
+  .modal__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    padding: 1.25rem 1.25rem 0;
+    flex-shrink: 0;
+  }
+
+  .modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0 1.25rem 1.5rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
 }
 
+/* ===== DESKTOP: mantém como estava ===== */
+@media (min-width: 601px) {
+  .modal__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+
+  .modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+/* Botão fechar desktop */
+.modal__fechar {
+  position: absolute;
+  right: 0;
+  top: -0.25rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease;
+}
+
+.modal__fechar:hover {
+  color: var(--texto);
+}
+
+/* Resto dos estilos do modal */
 .modal__mascote {
   width: 48px;
   height: 48px;
@@ -600,29 +762,6 @@ a {
 
 .modal__subtitulo::first-letter {
   text-transform: uppercase;
-}
-
-.modal__fechar {
-  position: absolute;
-  right: 0;
-  top: -0.25rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  line-height: 1;
-  cursor: pointer;
-  color: #888;
-  transition: color 0.2s ease;
-}
-
-.modal__fechar:hover {
-  color: var(--texto);
-}
-
-.modal__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
 }
 
 .modal__contato {
@@ -658,12 +797,7 @@ a.modal__contato:hover {
   color: #556;
 }
 
-/* ===== Modal de detalhe do anúncio ===== */
-.modal--anuncio {
-  padding: 0;
-  max-width: 480px;
-}
-
+/* Modal anúncio */
 .modal--anuncio .modal__fechar {
   position: absolute;
   right: 0.75rem;
@@ -687,36 +821,6 @@ a.modal__contato:hover {
 .modal--anuncio .modal__fechar:hover {
   background: white;
   color: var(--texto);
-}
-
-.modal__imagem {
-  width: 100%;
-  height: 220px;
-  max-height: 35vh;
-  object-fit: contain;
-  display: block;
-  border-radius: 16px 16px 0 0;
-  background-color: #f8faf8;
-  padding: 0.8rem;
-  box-sizing: border-box;
-  border-bottom: 1px solid #edf0ee;
-  flex-shrink: 0;
-}
-
-.modal__conteudo-anuncio {
-  padding: 1.25rem 1.5rem 1.5rem;
-  overflow-y: auto;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.modal__conteudo-anuncio h2 {
-  margin: 0.3rem 0 0.5rem;
-  font-size: 1.25rem;
-}
-
-.modal__conteudo-anuncio h2::first-letter {
-  text-transform: uppercase;
 }
 
 .modal__descricao {
@@ -761,7 +865,9 @@ a.modal__contato:hover {
   color: #778;
 }
 
-/* ===== Bottom nav (mobile, estilo app) ===== */
+/* ==========================================
+   Bottom nav (mobile, estilo app)
+   ========================================== */
 .bottom-nav {
   display: none;
 }
@@ -825,7 +931,9 @@ a.modal__contato:hover {
   }
 }
 
-/* ===== Botão Modo Admin ===== */
+/* ==========================================
+   Botão Modo Admin
+   ========================================== */
 .navbar__admin-btn {
   background: #f0f4f1;
   color: #4a554d;
@@ -871,100 +979,4 @@ a.modal__contato:hover {
   background: #e05252;
   color: white;
   border-color: #e05252;
-}
-
-/* ==========================================
-   FIX MODAL MOBILE — Bottom Sheet + Scroll
-   ========================================== */
-
-/* Overlay escuro que cobre TUDO, inclusive barras do browser */
-.modal-overlay {
-  position: fixed;
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
-  width: 100%;
-  height: 100%;
-  height: 100dvh; /* fallback moderno */
-  background: rgba(20, 30, 25, 0.65); /* escurecido um pouco mais */
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 9999; /* acima de TUDO, inclusive BottomNav */
-  overflow: hidden;
-  overscroll-behavior: none;
-  touch-action: none; /* trava gestos de scroll no overlay */
-  animation: overlay-in 0.2s ease both;
-}
-
-/* Mobile: bottom sheet fixo no bottom */
-@media (max-width: 600px) {
-  .modal-overlay {
-    padding: 0;
-    align-items: flex-end; /* joga pro bottom */
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .modal {
-    position: fixed; /* FIXADO no viewport, independente do body */
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: 100%;
-    width: 100%;
-    border-radius: 16px 16px 0 0;
-    max-height: 85svh; /* small viewport = sem barra de endereço */
-    max-height: 85dvh;
-    margin: 0;
-    animation: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    display: flex;
-    flex-direction: column;
-    overscroll-behavior: contain;
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
-  }
-
-  .modal--anuncio {
-    padding: 0;
-    display: flex;
-  }
-
-  .modal--anuncio .modal__fechar {
-    right: 0.5rem;
-    top: 0.5rem;
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-
-  .modal__imagem {
-    border-radius: 16px 16px 0 0;
-    height: 180px;
-    max-height: 25vh;
-    flex-shrink: 0;
-  }
-
-  /* O conteúdo é quem scrolla internamente */
-  .modal__conteudo-anuncio {
-    padding: 1rem 1.25rem 1.5rem;
-    overflow-y: auto;
-    flex: 1 1 auto;
-    overscroll-behavior: contain;
-    min-height: 0; /* importante pro flex scrollar */
-  }
-}
-
-@keyframes modal-slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

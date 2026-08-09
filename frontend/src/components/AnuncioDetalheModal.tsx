@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom"; // <-- ADICIONA ISSO
 import { deletarAnuncio } from "../api";
 import type { Anuncio } from "../types";
 import { capitalizarPrimeiraLetra } from "../utils";
 import { getVisitorId, isAdmin } from "../visitor";
-import { useLockBodyScroll } from "../hooks/useLockBodyScroll";
 
 interface AnuncioDetalheModalProps {
   anuncio: Anuncio | null;
@@ -28,7 +28,18 @@ function montarMensagemWhatsApp(anuncio: Anuncio) {
 
 export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalheModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  useLockBodyScroll(!!anuncio);
+
+  // LOCK SIMPLES — só add/remove classe no <html>
+  useEffect(() => {
+    if (anuncio) {
+      document.documentElement.classList.add("modal-open");
+    } else {
+      document.documentElement.classList.remove("modal-open");
+    }
+    return () => {
+      document.documentElement.classList.remove("modal-open");
+    };
+  }, [anuncio]);
 
   if (!anuncio) return null;
 
@@ -37,16 +48,17 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
   const mensagem = montarMensagemWhatsApp(anuncio);
   const podeDeletar = isAdmin() || anuncio.autor === getVisitorId();
 
-  return (
+  const modalContent = (
     <div className="modal-overlay" onClick={aoFechar}>
       <div className="modal modal--anuncio" ref={modalRef} onClick={(e) => e.stopPropagation()}>
-        <button className="modal__fechar" onClick={aoFechar} aria-label="Fechar">×</button>
+        <button className="modal__fechar" onClick={aoFechar} aria-label="Fechar">✕</button>
         <img src={anuncio.imagemUrl} alt={capitalizarPrimeiraLetra(anuncio.titulo)} className="modal__imagem" />
         <div className="modal__conteudo-anuncio">
           <span className="card__categoria">{capitalizarPrimeiraLetra(anuncio.categoria)}</span>
           <h2>{capitalizarPrimeiraLetra(anuncio.titulo)}</h2>
           <p className="modal__descricao">{capitalizarPrimeiraLetra(anuncio.descricao)}</p>
           <p className="modal__preco">{anuncio.tipo === "doacao" ? "Doação" : `R$ ${anuncio.preco?.toFixed(2)}`}</p>
+          
           <div className="modal__contato-anunciante">
             <img src="/mascote-unifor.png" alt="" className="modal__mascote-pequeno" />
             <div>
@@ -54,6 +66,7 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
               <span>Combine a {anuncio.tipo === "doacao" ? "retirada" : "negociação"} diretamente.</span>
             </div>
           </div>
+
           {contatoEhEmail ? (
             <a className="modal__contato" href={`mailto:${anuncio.contato}?subject=${encodeURIComponent(`Sobre o anúncio: ${capitalizarPrimeiraLetra(anuncio.titulo)}`)}&body=${mensagem}`}>
               <span className="modal__icone">✉️</span>
@@ -62,7 +75,7 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
           ) : (
             <a className="modal__contato" href={`https://api.whatsapp.com/send?phone=55${numeroLimpo}&text=${mensagem}`} target="_blank" rel="noopener noreferrer">
               <span className="modal__icone">💬</span>
-              <div><strong>WhatsApp</strong><span>{numeroLimpo}</span></div>
+              <div><strong>WhatsApp</strong><span>{anuncio.contato}</span></div>
             </a>
           )}
 
@@ -88,4 +101,7 @@ export default function AnuncioDetalheModal({ anuncio, aoFechar }: AnuncioDetalh
       </div>
     </div>
   );
+
+  // JOGA O MODAL DIRETO NO BODY — fora de qualquer stacking context
+  return createPortal(modalContent, document.body);
 }
